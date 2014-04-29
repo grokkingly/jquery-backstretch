@@ -5,6 +5,7 @@
 	<style>
 	    body { font-family: Helvetica, Arial, sans-serif; line-height: 1.3em; -webkit-font-smoothing: antialiased; }
 	    .container {
+          visibility: hidden;
 	        width: 90%;
 	        margin: 20px auto;
 	        background-color: #FFF;
@@ -48,7 +49,10 @@
           "dome.jpg"
         ], {
             fade: 750,
-            duration: 4000
+            duration: 4000,
+            focus_point: [{ x: 0.1, y: 0.1 },
+                          { x: 0.9, y: 0.9 },
+                          { x: 0.5, y: 0.5 }]
         });
     </script>
 </body>

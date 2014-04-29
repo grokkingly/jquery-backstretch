@@ -190,18 +190,30 @@
             , bgOffset;
 
             // Make adjustments based on image ratio
+            var focus_point = {};
+            var focus_options;
+            // Start based on centeredX and centeredY, then refine with the per picture options
+            focus_point.x = this.options.centeredX ? 0.5 : 0;
+            focus_point.y = this.options.centeredY ? 0.5 : 0;
+            // Get the per-photo options, if specified
+            if (this.options.focus_point && this.options.focus_point[this.index]) {
+              focus_options = this.options.focus_point[this.index];              
+              if ($.isNumeric(focus_options.x) && focus_options.x >= 0 && focus_options.x <=1) {
+                focus_point.x = focus_options.x;
+              }
+              if ($.isNumeric(focus_options.y) && focus_options.y >= 0 && focus_options.y <=1) {
+                focus_point.y = focus_options.y;
+              }
+            }
+
             if (bgHeight >= rootHeight) {
-                bgOffset = (bgHeight - rootHeight) / 2;
-                if(this.options.centeredY) {
-                  bgCSS.top = '-' + bgOffset + 'px';
-                }
+                bgOffset = (bgHeight - rootHeight) * focus_point.y;
+                bgCSS.top = '-' + bgOffset + 'px';
             } else {
                 bgHeight = rootHeight;
                 bgWidth = bgHeight * this.$img.data('ratio');
-                bgOffset = (bgWidth - rootWidth) / 2;
-                if(this.options.centeredX) {
-                  bgCSS.left = '-' + bgOffset + 'px';
-                }
+                bgOffset = (bgWidth - rootWidth) * focus_point.x;
+                bgCSS.left = '-' + bgOffset + 'px';
             }
 
             this.$wrap.css({width: rootWidth, height: rootHeight})
